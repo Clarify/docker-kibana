@@ -1,10 +1,9 @@
 FROM debian:jessie
 RUN apt-get update
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get install -y nginx-full wget
-RUN wget https://download.elasticsearch.org/kibana/kibana/kibana-3.1.0.tar.gz -O /tmp/kibana.tar.gz && \
-    tar zxf /tmp/kibana.tar.gz && mv kibana-3.1.0/* /usr/share/nginx/html
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-ADD run.sh /usr/local/bin/run
+RUN apt-get install -y wget
+RUN wget https://download.elastic.co/kibana/kibana/kibana-4.1.1-linux-x64.tar.gz
+RUN tar zxf kibana-*.tar.gz && mv kibana-*/ /kibana
+ADD run.sh /kibana/bin/start
 EXPOSE 80
-CMD ["/usr/local/bin/run"]
+CMD ["/kibana/bin/start"]
